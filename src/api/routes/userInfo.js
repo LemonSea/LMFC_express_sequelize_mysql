@@ -10,10 +10,10 @@ module.exports = (app) => {
 
   app.use('/userInfo', route);
 
-  route.get('/findAll',
+  route.get('/transaction',
     async (req, res, next) => {
       try {
-        const result = await userInfoServer.findAll();
+        const result = await userInfoServer.transaction();
         res.status(200).json(
           {
             "status": 0,

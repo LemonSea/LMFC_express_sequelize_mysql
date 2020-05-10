@@ -19,6 +19,8 @@ async function findAll() {
     //   {model: Phone, as: 'phone'},
     // ]
     // include: [{all: true}]
+    // 改为一行显示
+    //raw:true
   })
   return record;
   // return 1;
@@ -26,7 +28,7 @@ async function findAll() {
 
 // 获取当前用户信息
 async function addUser(username, password) {
-  // debug('addUser')
+  debug(username, password)
   var saveUser = {
     username,
     password

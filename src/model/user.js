@@ -24,7 +24,7 @@ const User = db.define('user', {//创建一个User对象，info是表名
         field: 'password',
         type: sequelize.STRING,
         allowNull: false,
-        unique: true,
+        // unique: true,
         validate: {
             isEmail: true
         }
