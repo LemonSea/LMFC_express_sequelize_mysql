@@ -10,6 +10,23 @@ module.exports = (app) => {
 
   app.use('/user', route);  
  
+  
+  route.get('/findAll',
+    async (req, res, next) => {
+      try {
+        const result = await userServer.findAll();
+        res.status(200).json(
+          {
+            "status": 0,
+            "data": result
+          }
+        )
+      } catch (e) {
+        logger.error('%o', e);
+        next(e)
+      }
+    })
+
   // 增加员工
   route.post('/add',
     async (req, res, next) => {

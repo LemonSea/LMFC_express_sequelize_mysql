@@ -29,6 +29,6 @@ const UserInfo = db.define('user_info', {//创建一个User对象，info是表�
 
 UserInfo.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' })
 // force:是否删除旧表创建新表，默认 false
-UserInfo.sync({ force: true });
-// UserInfo.sync({ force: false });
+// UserInfo.sync({ force: true });
+UserInfo.sync({ force: false });
 module.exports = UserInfo;

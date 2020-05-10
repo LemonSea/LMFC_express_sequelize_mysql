@@ -4,6 +4,22 @@ const bcrypt = require('bcrypt');
 const _ = require('lodash');
 
 const userModel = require('../model/user');
+const userInfoModel = require('../model/userInfo');
+
+// 获取当前用户信息和用户账号
+async function findAll() {
+  // const record = await userInfoModel.findAll()
+  const record = userModel.findOne({
+    include: [userInfoModel]
+    // include: [
+    //   {model: UserInfo, as: 'user_info'},
+    //   {model: Phone, as: 'phone'},
+    // ]
+    // include: [{all: true}]
+  })
+  return record;
+  // return 1;
+}
 
 // 获取当前用户信息
 async function addUser(username, password) {
@@ -17,5 +33,6 @@ async function addUser(username, password) {
 }
 
 module.exports = {
+  findAll,
   addUser
 }

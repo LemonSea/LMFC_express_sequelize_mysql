@@ -8,8 +8,24 @@ const userInfoServer = require('../../service/userInfo');
 
 module.exports = (app) => {
 
-  app.use('/userInfo', route);  
- 
+  app.use('/userInfo', route);
+
+  route.get('/findAll',
+    async (req, res, next) => {
+      try {
+        const result = await userInfoServer.findAll();
+        res.status(200).json(
+          {
+            "status": 0,
+            "data": result
+          }
+        )
+      } catch (e) {
+        logger.error('%o', e);
+        next(e)
+      }
+    })
+
   // 增加员工
   route.post('/add',
     async (req, res, next) => {
