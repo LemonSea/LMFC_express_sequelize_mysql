@@ -13,6 +13,7 @@ const transports = [
   new winston.transports.File({ filename: 'loggers/error.log', level: 'error' }),
   new winston.transports.File({ filename: 'loggers/warning.log', level: 'warning' }),
   new winston.transports.File({ filename: 'loggers/notice.log', level: 'notice' }),
+  // new winston.transports.File({ filename: 'loggers/info.log', level: 'info' }),
 ];
 if (process.env.NODE_ENV === 'development') {
   transports.push(
@@ -30,7 +31,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 else {
   transports.push(
-    new winston.transports.File({ filename: 'loggers/info.log', level: 'info' }),
+    // new winston.transports.File({ filename: 'loggers/info.log', level: 'info' }),
     new winston.transports.File({ filename: 'loggers/combined.log' }),
     new winston.transports.Console()
   )
