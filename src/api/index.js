@@ -5,6 +5,7 @@ const auth = require('./routes/auth');
 
 const user = require('./routes/user');
 const userInfo = require('./routes/userInfo');
+const role = require('./routes/role');
 
 
 module.exports = () => {
@@ -15,6 +16,7 @@ module.exports = () => {
   auth(app);
   user(app);
   userInfo(app);
+  role(app);
   
   return app
 }
