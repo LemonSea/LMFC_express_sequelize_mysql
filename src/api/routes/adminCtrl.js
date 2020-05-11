@@ -25,9 +25,11 @@ module.exports = (app) => {
       next(e)
     }
   })
-  route.get('/update', async (req, res, next) => {
+
+  /***************创建业务***************/
+  route.post('/create', async (req, res, next) => {
     try {
-      const result = await adminServer.baseUpdate(req.body['update'], req.body['where']);
+      const result = await adminServer.baseCreate(req.body);
       res.status(200).json(
         {
           "status": 0,

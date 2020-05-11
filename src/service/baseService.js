@@ -9,6 +9,11 @@ class BaseService{
 		// return this.instance.findAll(attributes)
 		return attributes ? this.instance.findAll({ attributes: attributes }) : this.instance.findAll()
 	}
+	/**
+	 * 
+	 * @param {过滤} attributes array
+	 * @param {条件} where object
+	 */
 	baseFindByFilter(attributes, where){		
 		// return this.instance.findByFilter(attributes, where)
 		return attributes ? this.instance.findAll({ attributes: attributes, where: where }) : this.instance.findAll({ where: where })
@@ -26,6 +31,12 @@ class BaseService{
 		return attributes ? this.instance.findAll({ attributes: attributes, where: whereOps }) : this.instance.findAll({ where: whereOps })
 	
 	}
+	/**
+	 * 带过滤条件的排序模糊查询
+	 * @param {过滤} attributes array
+	 * @param {条件} where object
+	 * @param {排序} order string
+	 */
 	baseFindLikeByFilterOrder(attributes, where, order){
 		// return this.instance.findLikeByFilterOrder(attributes, where, order)
 		let orderOps = [[order, 'DESC']]
@@ -42,6 +53,10 @@ class BaseService{
 		// return this.instance.delete(where)
 			return this.instance.destroy({ where: where })
 	}
+	/**
+	 * 插入单个实体
+	 * @param {实体} entity object
+	 */
 	baseCreate(entity){
 		// return this.instance.create(entity)
 		return this.instance.create(entity)

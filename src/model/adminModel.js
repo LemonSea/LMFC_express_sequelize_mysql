@@ -9,7 +9,7 @@ class AdminModel extends BaseModel {
         primaryKey: true,//自增
         type: sequelize.INTEGER,//类型
         autoIncrement: true
-      },      
+      },
       num: {
         type: sequelize.STRING,
       },
@@ -18,7 +18,7 @@ class AdminModel extends BaseModel {
       },
       avatar: {
         type: sequelize.STRING,
-      },      
+      },
       account: {
         type: sequelize.STRING,
         allowNull: false,
@@ -73,7 +73,8 @@ class AdminModel extends BaseModel {
       },
     })
     this.model = super.getModel()
-    this.model.sync({ force: false })
+    this.model.sync({ force: true })
   }
+
 }
 module.exports = new AdminModel()

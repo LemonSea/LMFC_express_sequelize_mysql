@@ -1,7 +1,7 @@
 const Router = require('express').Router;
 
 // const upload = require('./routes/upload');
-// const auth = require('./routes/auth');
+const authCtrl = require('./routes/authCtrl');
 
 // const user = require('./routes/user');
 // const userInfo = require('./routes/userInfo');
@@ -20,6 +20,7 @@ module.exports = () => {
   // auth(app);
   // user(app);
   // userInfo(app);
+  authCtrl(app);
   roleCtrl(app);
   adminCtrl(app);
   

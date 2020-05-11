@@ -18,10 +18,15 @@ class BaseModel {
 	// findAll(attributes) {
 	// 	return attributes ? this.model.findAll({ attributes: attributes }) : this.model.findAll()
 	// }
-	// // 带过滤条件的精确查询
-	// findByFilter(attributes, where) {		
-	// 	return attributes ? this.model.findAll({ attributes: attributes, where: where }) : this.model.findAll({ where: where })
-	// }
+	
+	/**
+	 * 带过滤条件的精确查询
+	 * @param {过滤} attributes array
+	 * @param {条件} where object
+	 */
+	findByFilter(attributes, where) {		
+		return attributes ? this.model.findAll({ attributes: attributes, where: where }) : this.model.findAll({ where: where })
+	}
 	// // 带过滤条件的排序精确查询
 	// findByFilterOrder(attributes, where, order) {
 	// 	let orderOps = [[order, 'DESC']]
@@ -51,10 +56,10 @@ class BaseModel {
 	// 	return this.model.destroy({ where: where })
 	// }
 	/**************************************插入方法**************************************/
-	// // 插入单个实体
-	// create(entity) {
-	// 	return this.model.create(entity)
-	// }
+	// 插入单个实体
+	create(entity) {
+		return this.model.create(entity)
+	}
 	// 批量插入实体集
 	// createBatch(entitys) {
 	// 	return this.model.bulkCreate(entitys)
