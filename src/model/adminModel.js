@@ -1,6 +1,7 @@
 const sequelize = require('sequelize');
 const BaseModel = require('./baseModel');
-const RoelModel = require('./roleModel');
+const roleModel = require('./roleModel');
+const authModel = require('./authModel');
 
 class AdminModel extends BaseModel {
   constructor() {
@@ -70,12 +71,39 @@ class AdminModel extends BaseModel {
         allowNull: false
       }
     })
-    
+
     this.model = super.getModel()
+    // 一对多关系
+    this.model.belongsTo(roleModel['model']);
     // this.model.belongsTo(RoleModel['model'], {foreignKey: 'roleId', targetKey: 'id'});
     // this.model.belongsTo(RoelModel['model'], {foreignKey: 'roleId', targetKey: 'id'});
     this.model.sync({ force: false })
   }
-  
+  specialDAO2() {
+    return this.model.findAll({
+      include: [{
+        model: roleModel['model'],
+      }],
+      // raw:true
+    })
+  }
+  specialDAO3() {
+    return this.model.findAll({
+      include: [
+        {
+          attributes:['name'],
+          model: roleModel['model'],
+          include: [
+            {
+              attributes:['auth'],
+              model: authModel['model'],
+              as: 'auth'
+            }
+          ]
+        }
+      ],
+      // raw:true
+    })
+  }
 }
 module.exports = new AdminModel()

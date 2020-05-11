@@ -17,6 +17,7 @@ class UserModel extends BaseModel {
       },
 		})
     this.model = super.getModel()
+    this.model.belongsTo(vcardModel['model']);
     // this.model.hasOne(User)
     this.model.sync({ force: false })
 	}	

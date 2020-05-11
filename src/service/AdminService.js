@@ -86,9 +86,10 @@ class AdminService extends BaseService {
 		}
 	}
 
+	
 	async specialService2(){
 		try {
-			return await AdminModel.specialDAO2()
+			return await AdminModel.specialDAO3()
 		} catch (ex) {
 			throw ex
 		}

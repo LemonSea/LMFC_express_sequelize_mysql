@@ -1,6 +1,6 @@
 const sequelize = require('sequelize');
 const BaseModel = require('./baseModel');
-const UserModel = require('./userModel');
+// const UserModel = require('./userModel');
 
 class VCardModel extends BaseModel {
 	constructor() {
@@ -14,17 +14,17 @@ class VCardModel extends BaseModel {
 			amount: {type: sequelize.INTEGER}
 		})
 		this.model = super.getModel()
-    this.model.belongsTo(UserModel['model']);
+    // this.model.belongsTo(UserModel['model']);
     this.model.sync({ force: false })
 	}
 	
-  specialDAO2(){
-		return this.model.findAll({
-			include:[{
-				model:UserModel['model'],
-      }],
-      // raw:true
-		})
-  }
+  // specialDAO2(){
+	// 	return this.model.findAll({
+	// 		include:[{
+	// 			model:UserModel['model'],
+  //     }],
+  //     // raw:true
+	// 	})
+  // }
 }
 module.exports = new VCardModel()
