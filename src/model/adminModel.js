@@ -17,54 +17,6 @@ class AdminModel extends BaseModel {
       nickName: {
         type: sequelize.STRING,
       },
-      avatar: {
-        type: sequelize.STRING,
-      },
-      account: {
-        type: sequelize.STRING,
-        allowNull: false,
-      },
-      password: {
-        type: sequelize.STRING,
-        allowNull: false,
-      },
-      IDCard: {
-        type: sequelize.STRING,
-      },
-      realName: {
-        type: sequelize.STRING,
-      },
-      gender: {
-        type: sequelize.INTEGER,
-      },
-      age: {
-        type: sequelize.INTEGER,
-      },
-      birthday: {
-        type: sequelize.DATEONLY,
-      },
-      prefix: {
-        type: sequelize.INTEGER,
-      },
-      phone: {
-        type: sequelize.INTEGER,
-      },
-      email: {
-        type: sequelize.STRING,
-        validate: {
-          isEmail: true,
-        }
-      },
-      qq: {
-        type: sequelize.STRING,
-      },
-      wechat: {
-        type: sequelize.STRING,
-      },
-      status: {
-        type: sequelize.INTEGER,
-        allowNull: false,
-      },
       roleId: {
         type: sequelize.INTEGER,
         allowNull: false

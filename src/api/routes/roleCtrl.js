@@ -11,6 +11,20 @@ module.exports = (app) => {
   app.use('/role', route);
 
   /***************查询业务***************/
+  route.get('/', async (req, res, next) => {
+    try {
+      const result = await roleServer.specialService2();
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (e) {
+      logger.error('%o', e);
+      next(e)
+    }
+  })
   route.get('/all', async (req, res, next) => {
     try {
       const result = await roleServer.baseFindAll();

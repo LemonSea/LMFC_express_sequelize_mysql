@@ -86,13 +86,5 @@ class AdminService extends BaseService {
 		}
 	}
 
-	
-	async findRole(){
-		try {
-			return await AdminModel.specialDAO2()
-		} catch (ex) {
-			throw ex
-		}
-	}
 }
 module.exports = new AdminService()
