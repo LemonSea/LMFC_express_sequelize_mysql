@@ -3,6 +3,7 @@ const debug = require('debug')('app:controller-phone');
 const BaseService = require('./baseService');
 const phoneModel = require('../model/phoneModel').getModel()
 const companyModel = require('../model/companyModel').getModel()
+
 const db = require('../lib/db');//引入数据库配置信息
 // @AutoWritedPersonModel
 class PhoneService extends BaseService {
@@ -40,9 +41,10 @@ class PhoneService extends BaseService {
 				phone
 			}
 		} catch (err) {
-			console.error(err)
+			// console.error(err)
 			// Rollback transaction if any errors were encountered
 			await transaction.rollback();
+			throw ex
 		}
 	}
 

@@ -27,5 +27,6 @@ class RoleModel extends BaseModel {
     
     this.model.sync({ force: false })
   }
+  
 }
 module.exports = new RoleModel()

@@ -11,7 +11,7 @@ const AdminModel = require('../model/adminModel');
 // @AutoWritedCompanyModel
 class AdminService extends BaseService {
 	constructor() {
-		super(AdminModel['model'])
+		super(AdminModel)
 		// super('model')
 	}
 
@@ -21,7 +21,7 @@ class AdminService extends BaseService {
 	 */
 	validationAccount(account) {
 		try {
-			return AdminModel.findByFilter(null,  { account })
+			return this.baseFindByFilter(null,  { account })
 		} catch (ex) {
 			throw ex
 		}
@@ -56,7 +56,7 @@ class AdminService extends BaseService {
 			const salt = await bcrypt.genSalt(10);
 			user.password = await bcrypt.hash(user.password, salt);
 
-			return await AdminModel.create(user)
+			return await this.baseCreate(user)
 		} catch (ex) {
 			throw ex
 		}

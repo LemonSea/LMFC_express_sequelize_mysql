@@ -73,7 +73,7 @@ class AdminModel extends BaseModel {
       },
     })
     this.model = super.getModel()
-    this.model.sync({ force: true })
+    this.model.sync({ force: false })
   }
 
 }

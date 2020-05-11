@@ -1,51 +1,60 @@
 const route = require('express').Router();
-const debug = require('debug')('app:route');
+const debug = require('debug')('app:route-user');
 const logger = require('../../middlewares/logger');
 const _ = require('lodash');
 
-const adminServer = require('../../service/AdminService');
+
+const authServer = require('../../service/AuthService');
 
 module.exports = (app) => {
 
   app.use('/auth', route);
 
-
-  // 管理员注册
-  route.post('/admin/signup',
-    async (req, res, next) => {
-      try {
-        // 账号验证
-        const record = await adminServer.validationAccount(req.body.account)
-        debug(record)
-        // // 该账号已注册
-        if (record.length !== 0) return res.status(400).json(
-          {
-            "status": 1,
-            "msg": 'User already registered.'
-          })
-
-        // 用户注册
-        const result = await adminServer.signUp(req.body)
-
-        // 获取令牌
-        const token = adminServer.generateAuthToken(result.id, result.account)
-        // // 注册成功
-        // const { record, token } = result;
-        res.status(201).header('x-auth-token', token).json(
-          {
-            "status": 0,
-            "data": result,
-            "token": token,
-            "type": "admin"
-          }
-        )
-      } catch (e) {
-        logger.error('%o', e);
-        next(e)
-      }
+  /*************** 查询业务 ***************/
+  route.get('/all', async (req, res, next) => {
+    try {
+      const result = await authServer.baseFindAll();
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (e) {
+      logger.error('%o', e);
+      next(e)
     }
-  )
-
+  })
+  /*************** 创建业务 ***************/
+  route.post('/createBatch', async (req, res, next) => {
+    try {
+      const result = await authServer.baseCreateBatch(req.body['entitys']);
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (e) {
+      logger.error('%o', e);
+      next(e)
+    }
+  })
+  /*************** 修改业务 ***************/
+  route.put('/update', async (req, res, next) => {
+    try {
+      const result = await authServer.updateAuth(req.body['update'], req.body['where']);
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (e) {
+      logger.error('%o', e);
+      next(e)
+    }
+  })
 }
 
 
