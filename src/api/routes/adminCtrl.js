@@ -14,6 +14,7 @@ module.exports = (app) => {
   route.get('/all', async (req, res, next) => {
     try {
       const result = await adminServer.baseFindAll();
+      debug(result)
       res.status(200).json(
         {
           "status": 0,
@@ -61,6 +62,61 @@ module.exports = (app) => {
       }
     }
   )
+
+
+  // 管理员登录
+  route.post('/signin',
+    async (req, res, next) => {
+      try {
+        // 账号验证
+        const record = await adminServer.baseFindByFilter(null, { account: req.body.account })
+        // 该账号不存在
+        if (record.length === 0) return res.status(400).json(
+          {
+            "status": 1,
+            "msg": 'Account not registered!'
+          })
+        debug(record)
+        // // 获取用户详细信息
+        // const result = await adminServer.signIn(req.body.password, record)
+        // if (!result) return res.status(400).json({
+        //   "status": 2,
+        //   "msg": 'Invalid account or password!'
+        // })
+
+        // 获取令牌
+        const token = adminServer.generateAuthToken(record.id, record.account)
+        // // 注册成功
+        // const { record, token } = result;
+        res.status(201).header('x-auth-token', token).json(
+          {
+            "status": 0,
+            "data": record,
+            "token": token,
+            "type": "admin"
+          }
+        )
+      } catch (e) {
+        logger.error('%o', e);
+        next(e)
+      }
+    })
+
+    route.get('/', async (req, res, next) => {
+      try {
+        const result = await adminServer.find();
+        debug(result)
+        res.status(200).json(
+          {
+            "status": 0,
+            "data": result
+          }
+        )
+      } catch (e) {
+        logger.error('%o', e);
+        next(e)
+      }
+    })
 }
 
 

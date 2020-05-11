@@ -19,9 +19,9 @@ class AdminService extends BaseService {
 	 * 验证账号
 	 * @param {账号} account string
 	 */
-	validationAccount(account) {
+	async validationAccount(account) {
 		try {
-			return this.baseFindByFilter(null,  { account })
+			return await this.baseFindByFilter(null, { account })
 		} catch (ex) {
 			throw ex
 		}
@@ -60,6 +60,36 @@ class AdminService extends BaseService {
 		} catch (ex) {
 			throw ex
 		}
+	}
+
+	/**
+	 * 管理员登录
+	 * @param {管理员} user object
+	 */
+	async signIn(password, record) {
+		try {
+			debug(password, record)
+			// 验证密码
+			const validPassword = await bcrypt.compare(password, record.password);
+			if (!validPassword) {
+				return false;
+			}
+
+			// 获取对应角色信息
+
+			// 获取对应权限
+
+			return record
+
+		} catch (ex) {
+			throw ex
+		}
+	}
+
+	async find(){
+		const result = await AdminModel['model'].findAll();
+		debug(result)
+		return result;
 	}
 }
 module.exports = new AdminService()
