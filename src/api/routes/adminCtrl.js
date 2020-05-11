@@ -10,20 +10,6 @@ module.exports = (app) => {
 
   app.use('/administrator', route);
 
-  route.get('/', async (req, res, next) => {
-    try {
-      const result = await adminServer.specialService2();
-      res.status(200).json(
-        {
-          "status": 0,
-          "data": result
-        }
-      )
-    } catch (e) {
-      logger.error('%o', e);
-      next(e)
-    }
-  })
   /***************查询业务***************/
   route.get('/all', async (req, res, next) => {
     try {
