@@ -1,6 +1,6 @@
 const sequelize = require('sequelize');
 const BaseModel = require('./baseModel');
-// const AdminModel = require('./adminModel');
+const AdminModel = require('./adminModel');
 const AuthModel = require('./authModel');
 
 class RoleModel extends BaseModel {
@@ -21,7 +21,7 @@ class RoleModel extends BaseModel {
     // as:如果定义了as，它将代替目标模型名称。
     // foreignKey:在所有情况下，都可以使用foreignKey选项覆盖默认外键。
     // targetKey:目标键是目标模型上的列，其是源模型外键列所指向的列。
-    // this.model.hasMany(AdminModel['model'], {as: 'admin', foreignKey: 'roleId', sourceKey: 'id' })
+    this.model.hasMany(AdminModel['model'], {as: 'admin', foreignKey: 'roleId', sourceKey: 'id' })
     this.model.hasMany(AuthModel['model'], {as: 'auth', foreignKey: 'roleId', sourceKey: 'id' })
     // this.model.hasMany(AuthModel['model'],{as: 'Workers'});
     this.model.sync({ force: false })
@@ -31,11 +31,14 @@ class RoleModel extends BaseModel {
 			// attributes:['name', 'age'],
 			include:[{
 				model:AuthModel['model'], 
-				as: 'auth'
+        as: 'auth',
+        attributes:['auth'],
         // where: {'cname': '阿里巴巴'}
         // row:true
-			}]
+      }],
+      // raw:true
 		})
-	}
+  }
+
 }
 module.exports = new RoleModel()

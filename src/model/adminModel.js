@@ -24,8 +24,8 @@ class AdminModel extends BaseModel {
     })
     
     this.model = super.getModel()
-    this.model.belongsTo(RoleModel, {foreignKey: 'roleId', targetKey: 'id'});
-    this.model.sync({ force: true })
+    // this.model.belongsTo(RoleModel, {foreignKey: 'roleId', targetKey: 'id'});
+    this.model.sync({ force: false })
   }
 }
 module.exports = new AdminModel()
