@@ -76,7 +76,6 @@ module.exports = (app) => {
             "status": 1,
             "msg": 'Account not registered!'
           })
-        debug(record)
         // // 获取用户详细信息
         // const result = await adminServer.signIn(req.body.password, record)
         // if (!result) return res.status(400).json({
@@ -104,8 +103,8 @@ module.exports = (app) => {
 
     route.get('/', async (req, res, next) => {
       try {
-        const result = await adminServer.find();
-        debug(result)
+        const result = await adminServer.findRole();
+        debug(result[0].get())
         res.status(200).json(
           {
             "status": 0,

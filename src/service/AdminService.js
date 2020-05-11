@@ -86,10 +86,13 @@ class AdminService extends BaseService {
 		}
 	}
 
-	async find(){
-		const result = await AdminModel['model'].findAll();
-		debug(result)
-		return result;
+	
+	async findRole(){
+		try {
+			return await AdminModel.findRole()
+		} catch (ex) {
+			throw ex
+		}
 	}
 }
 module.exports = new AdminService()

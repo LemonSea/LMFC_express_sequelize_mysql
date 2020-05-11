@@ -16,12 +16,15 @@ class RoleModel extends BaseModel {
         type: sequelize.STRING,
         allowNull: false,
       },
-      isDelete: {
-        field: 'isDelete',
-        type: sequelize.INTEGER
-      },
+      // isDelete: {
+      //   field: 'isDelete',
+      //   type: sequelize.INTEGER
+      // },
     })
     this.model = super.getModel()
+    // as:如果定义了as，它将代替目标模型名称。
+    // foreignKey:在所有情况下，都可以使用foreignKey选项覆盖默认外键。
+    // targetKey:目标键是目标模型上的列，其是源模型外键列所指向的列。
     this.model.hasMany(AdminModel['model'], {as: 'admin', foreignKey: 'roleId', sourceKey: 'id' })
     this.model.hasMany(AuthModel['model'], {as: 'auth', foreignKey: 'roleId', sourceKey: 'id' })
     

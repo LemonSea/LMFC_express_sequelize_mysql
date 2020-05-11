@@ -1,5 +1,6 @@
 const sequelize = require('sequelize');
 const BaseModel = require('./baseModel');
+const RoleModel = require('./roleModel')
 
 class AdminModel extends BaseModel {
   constructor() {
@@ -67,14 +68,23 @@ class AdminModel extends BaseModel {
       roleId: {
         type: sequelize.INTEGER,
         allowNull: false
-      },
-      isDelete: {
-        type: sequelize.INTEGER
-      },
+      }
     })
+    
     this.model = super.getModel()
     this.model.sync({ force: false })
   }
 
+  findRole(){
+		return this.model.findAll({
+			// attributes:['name', 'age'],
+			include:[{
+				model:RoleModel['model'],
+			}]
+		})
+  }
+  findAll(attributes) {
+		return attributes ? this.model.findAll({ attributes: attributes }) : this.model.findAll()
+	}
 }
 module.exports = new AdminModel()

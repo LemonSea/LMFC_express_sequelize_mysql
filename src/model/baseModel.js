@@ -7,7 +7,8 @@ class BaseModel {
 		this.model = db.define(tableName, schema, {
 			tableName: tableName,//表名
 			timestamps: true,//默认情况下，Sequelize会将createdAt和updatedAt的属性添加到模型中，以便您可以知道数据库条目何时进入数据库以及何时被更新。请注意，如果您使用Sequelize迁移，则需要将createdAt和updatedAt字段添加到迁移定义中
-			freezeTableName: true// 默认false修改表名为复数，true不修改表名，与数据库表名同步
+			freezeTableName: true,// 默认false修改表名为复数，true不修改表名，与数据库表名同步
+			paranoid: true,  // 不实际删除数据库记录，而是设置一个新 deletedAt 属性，其值为当前日期
 		})
 	}
 	// 返回实例化的sequelize模型实例
