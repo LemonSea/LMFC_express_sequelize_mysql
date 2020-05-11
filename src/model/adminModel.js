@@ -17,6 +17,54 @@ class AdminModel extends BaseModel {
       nickName: {
         type: sequelize.STRING,
       },
+      avatar: {
+        type: sequelize.STRING,
+      },
+      account: {
+        type: sequelize.STRING,
+        allowNull: false,
+      },
+      password: {
+        type: sequelize.STRING,
+        allowNull: false,
+      },
+      IDCard: {
+        type: sequelize.STRING,
+      },
+      realName: {
+        type: sequelize.STRING,
+      },
+      gender: {
+        type: sequelize.INTEGER,
+      },
+      age: {
+        type: sequelize.INTEGER,
+      },
+      birthday: {
+        type: sequelize.DATEONLY,
+      },
+      prefix: {
+        type: sequelize.INTEGER,
+      },
+      phone: {
+        type: sequelize.INTEGER,
+      },
+      email: {
+        type: sequelize.STRING,
+        validate: {
+          isEmail: true,
+        }
+      },
+      qq: {
+        type: sequelize.STRING,
+      },
+      wechat: {
+        type: sequelize.STRING,
+      },
+      status: {
+        type: sequelize.INTEGER,
+        allowNull: false,
+      },
       roleId: {
         type: sequelize.INTEGER,
         allowNull: false
@@ -24,8 +72,23 @@ class AdminModel extends BaseModel {
     })
     
     this.model = super.getModel()
+    this.model.belongsTo(RoleModel['model'], {foreignKey: 'roleId', targetKey: 'id'});
     // this.model.belongsTo(RoleModel, {foreignKey: 'roleId', targetKey: 'id'});
-    this.model.sync({ force: false })
+    this.model.sync({ force: true })
+  }
+  
+  specialDAO2(){
+		return this.model.findAll({
+			// attributes:['name', 'age'],
+			include:[{
+				model:RoleModel['model'], 
+        as: 'admin',
+        // attributes:['auth'],
+        // where: {'cname': '阿里巴巴'}
+        // row:true
+      }],
+      // raw:true
+		})
   }
 }
 module.exports = new AdminModel()

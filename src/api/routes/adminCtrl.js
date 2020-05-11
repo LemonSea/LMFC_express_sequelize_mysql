@@ -10,6 +10,20 @@ module.exports = (app) => {
 
   app.use('/administrator', route);
 
+  route.get('/', async (req, res, next) => {
+    try {
+      const result = await adminServer.specialService2();
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (e) {
+      logger.error('%o', e);
+      next(e)
+    }
+  })
   /***************查询业务***************/
   route.get('/all', async (req, res, next) => {
     try {
@@ -93,22 +107,6 @@ module.exports = (app) => {
             "data": record,
             "token": token,
             "type": "admin"
-          }
-        )
-      } catch (e) {
-        logger.error('%o', e);
-        next(e)
-      }
-    })
-
-    route.get('/', async (req, res, next) => {
-      try {
-        const result = await adminServer.findRole();
-        debug(result[0].get())
-        res.status(200).json(
-          {
-            "status": 0,
-            "data": result
           }
         )
       } catch (e) {

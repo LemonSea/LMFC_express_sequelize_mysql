@@ -7,12 +7,12 @@ const Jwt = require('jsonwebtoken');
 const config = require('../config');
 
 const BaseService = require('./baseService');
+
 const AdminModel = require('../model/adminModel');
 // @AutoWritedCompanyModel
 class AdminService extends BaseService {
 	constructor() {
 		super(AdminModel)
-		// super('model')
 	}
 
 	/**
@@ -86,5 +86,12 @@ class AdminService extends BaseService {
 		}
 	}
 
+	async specialService2(){
+		try {
+			return await AdminModel.specialDAO2()
+		} catch (ex) {
+			throw ex
+		}
+	}
 }
 module.exports = new AdminService()
