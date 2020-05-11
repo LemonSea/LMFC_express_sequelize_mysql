@@ -1,6 +1,6 @@
 const sequelize = require('sequelize');
 const BaseModel = require('./baseModel');
-const RoleModel = require('./roleModel')
+const RoleModel = require('./roleModel');
 
 class AdminModel extends BaseModel {
   constructor() {
@@ -72,19 +72,8 @@ class AdminModel extends BaseModel {
     })
     
     this.model = super.getModel()
-    this.model.sync({ force: false })
+    this.model.belongsTo(RoleModel, {foreignKey: 'roleId', targetKey: 'id'});
+    this.model.sync({ force: true })
   }
-
-  findRole(){
-		return this.model.findAll({
-			// attributes:['name', 'age'],
-			include:[{
-				model:RoleModel['model'],
-			}]
-		})
-  }
-  findAll(attributes) {
-		return attributes ? this.model.findAll({ attributes: attributes }) : this.model.findAll()
-	}
 }
 module.exports = new AdminModel()

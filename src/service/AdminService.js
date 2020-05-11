@@ -89,7 +89,7 @@ class AdminService extends BaseService {
 	
 	async findRole(){
 		try {
-			return await AdminModel.findRole()
+			return await AdminModel.specialDAO2()
 		} catch (ex) {
 			throw ex
 		}
