@@ -25,10 +25,11 @@ module.exports = (app) => {
   //   }
   // })
   /***************查询业务***************/
+
+  /***************基础业务***************/
   route.get('/all', async (req, res, next) => {
     try {
       const result = await adminServer.baseFindAll();
-      debug(result)
       res.status(200).json(
         {
           "status": 0,
@@ -41,7 +42,135 @@ module.exports = (app) => {
     }
   })
 
-  /***************创建业务***************/
+  route.get('/all/some', async (req, res, next) => {
+    try {
+      const result = await adminServer.baseFindAll(Object.values(req.query));
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (err) {
+      logger.error('%o', err);
+      next(err)
+    }
+  })
+  route.get('/find/where', async (req, res, next) => {
+    try {
+      const result = await adminServer.baseFindByFilter(null, req.query);
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (err) {
+      logger.error('%o', err);
+      next(err)
+    }
+  })
+  route.get('/find/where/order', async (req, res, next) => {
+    try {
+      const result = await adminServer.baseFindByFilterOrder(null, req.query.where, req.query.order)
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (err) {
+      logger.error('%o', err);
+      next(err)
+    }
+  })
+  route.get('/findlike/where', async (req, res, next) => {
+    try {
+      const result = await adminServer.baseFindLikeByFilter(null, req.query)
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (err) {
+      logger.error('%o', err);
+      next(err)
+    }
+  })
+  route.get('/findlike/where/order', async (req, res, next) => {
+    try {
+      const result = await adminServer.baseFindLikeByFilter(null, req.query.where, req.query.order)
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (err) {
+      logger.error('%o', err);
+      next(err)
+    }
+  })
+
+  route.put('/update', async (req, res, next) => {
+    try {
+      const result = await adminServer.baseUpdate(req.body['update'], req.body['where']);
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (e) {
+      logger.error('%o', e);
+      next(e)
+    }
+  })
+  route.delete('/delete', async (req, res, next) => {
+    try {
+      const result = await adminServer.baseDelete(req.body);
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (e) {
+      logger.error('%o', e);
+      next(e)
+    }
+  })
+  route.post('/create', async (req, res, next) => {
+    try {
+      const result = await adminServer.baseCreate(req.body);
+      res.status(201).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (e) {
+      logger.error('%o', e);
+      next(e)
+    }
+  })
+  route.post('/createBatch', async (req, res, next) => {
+    try {
+      const result = await adminServer.baseCreateBatch(req.body['entitys']);
+      res.status(201).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (e) {
+      logger.error('%o', e);
+      next(e)
+    }
+  })
+
+  /***************特殊业务***************/
   // 管理员注册
   route.post('/signup',
     async (req, res, next) => {
@@ -74,9 +203,7 @@ module.exports = (app) => {
         logger.error('%o', e);
         next(e)
       }
-    }
-  )
-
+    })
 
   // 管理员登录
   route.post('/signin',
@@ -115,6 +242,28 @@ module.exports = (app) => {
         next(e)
       }
     })
+
+    
+  route.get('/find/where/paging', async (req, res, next) => {
+    try {
+      let where = _.omit(req.query,['limit','offset'])
+      let limit = parseInt(req.query.limit) 
+      let offset = parseInt(req.query.offset)
+      // debug(where)
+      // debug(limit)
+      // debug(offset)
+      const result = await adminServer.baseFindByFilterPaging(null, where, offset, limit);
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (err) {
+      logger.error('%o', err);
+      next(err)
+    }
+  })
 }
 
 

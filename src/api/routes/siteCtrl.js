@@ -1,5 +1,5 @@
 const route = require('express').Router();
-const debug = require('debug')('app:route-user');
+const debug = require('debug')('app:route-site');
 const logger = require('../../middlewares/logger');
 const _ = require('lodash');
 
@@ -42,7 +42,6 @@ module.exports = (app) => {
   })
   route.get('/find/where', async (req, res, next) => {
     try {
-      debug(req.query)
       const result = await SiteService.baseFindByFilter(null, req.query);
       res.status(200).json(
         {

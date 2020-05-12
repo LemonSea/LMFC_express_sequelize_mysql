@@ -29,6 +29,12 @@ class BaseModel {
 		let orderOps = [[order, 'DESC']]
 		return attributes ? this.model.findAll({ attributes: attributes, where: where, order: orderOps }) : this.model.findAll({ where: where, order: orderOps })
 	}
+	// 带过滤条件的分页精确查询
+	findByFilterPaging(attributes, where, offset, limit ) {
+    return attributes 
+    ? this.model.findAll({ attributes: attributes, where: where, offset: offset, limit: limit }) 
+    : this.model.findAll({ where: where, offset: offset, limit: limit })
+	}
 	// 带过滤条件的模糊查询
 	findLikeByFilter(attributes, where) {
 		let whereOps = {}

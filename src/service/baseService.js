@@ -20,6 +20,9 @@ class BaseService {
 	baseFindByFilter(attributes, where) {
 		return this.instance.findByFilter(attributes, where)
 	}
+	baseFindByFilterPaging(attributes, where, offset, limit) {
+		return this.instance.findByFilterPaging(attributes, where, offset, limit)
+	}
 	/**
 	 * 带过滤条件的排序精确查询
 	 * @param {过滤} attributes array
