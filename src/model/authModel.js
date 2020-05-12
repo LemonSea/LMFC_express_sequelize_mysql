@@ -21,6 +21,6 @@ class AuthModel extends BaseModel {
 		})
 		this.model = super.getModel()
     this.model.sync({ force: false })
-	}
+  }
 }
 module.exports = new AuthModel()

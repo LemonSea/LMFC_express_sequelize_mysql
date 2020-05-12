@@ -1,15 +1,15 @@
-const debug = require('debug')('app:controller-admin');
+const debug = require('debug')('app:server-admin');
 const { Container } = require("typedi");
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const Jwt = require('jsonwebtoken');
 
 const config = require('../config');
-
 const BaseService = require('./baseService');
-
 const AdminModel = require('../model/adminModel');
-// @AutoWritedCompanyModel
+
+const AuthService = require('./AuthService');
+
 class AdminService extends BaseService {
 	constructor() {
 		super(AdminModel)
@@ -52,6 +52,9 @@ class AdminService extends BaseService {
 	 */
 	async signUp(user) {
 		try {
+			// 判断是否需要默认头像
+			user.avatar = user.avatar ? user.avatar : ''
+
 			// 密码加盐
 			const salt = await bcrypt.genSalt(10);
 			user.password = await bcrypt.hash(user.password, salt);
@@ -68,18 +71,20 @@ class AdminService extends BaseService {
 	 */
 	async signIn(password, record) {
 		try {
-			debug(password, record)
+			record.menu = [];
 			// 验证密码
 			const validPassword = await bcrypt.compare(password, record.password);
 			if (!validPassword) {
 				return false;
 			}
 
-			// 获取对应角色信息
-
 			// 获取对应权限
+			const auth = await AuthService.baseFindByFilter(['auth'], {roleId: record.roleId})
+			auth.forEach(element =>{
+				record.menu.push(element.get().auth)
+			} );
 
-			return record
+			return _.omit(record,['password'])
 
 		} catch (ex) {
 			throw ex

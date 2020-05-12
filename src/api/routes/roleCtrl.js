@@ -11,20 +11,6 @@ module.exports = (app) => {
   app.use('/role', route);
 
   /***************查询业务***************/
-  route.get('/', async (req, res, next) => {
-    try {
-      const result = await roleServer.specialService2();
-      res.status(200).json(
-        {
-          "status": 0,
-          "data": result
-        }
-      )
-    } catch (e) {
-      logger.error('%o', e);
-      next(e)
-    }
-  })
   route.get('/all', async (req, res, next) => {
     try {
       const result = await roleServer.baseFindAll();
@@ -39,6 +25,7 @@ module.exports = (app) => {
       next(e)
     }
   })
+  
   route.get('/all/some', async (req, res, next) => {
     try {
       const result = await roleServer.baseFindAll(Object.values(req.query));
@@ -166,6 +153,39 @@ module.exports = (app) => {
       next(e)
     }
   })
+
+  /***************特殊业务***************/
+  // 获取所有角色及其权限
+  route.get('/auth/all', async (req, res, next) => {
+    try {
+      const result = await roleServer.specialService2();
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (e) {
+      logger.error('%o', e);
+      next(e)
+    }
+  })
+
+  // 获取所有角色及其对应权限
+  route.delete('/auth/delete', async (req, res, next) => {
+    try {
+      const result = await roleServer.deleteRoleAndAuth(req.body);
+      res.status(400).json(
+        {
+          "status": result.code,
+          "msg": result.msg
+        })
+    } catch (e) {
+      logger.error('%o', e);
+      next(e)
+    }
+  })
+
 }
 
 

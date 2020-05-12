@@ -10,20 +10,20 @@ module.exports = (app) => {
 
   app.use('/administrator', route);
 
-  route.get('/', async (req, res, next) => {
-    try {
-      const result = await adminServer.specialService2();
-      res.status(200).json(
-        {
-          "status": 0,
-          "data": result
-        }
-      )
-    } catch (e) {
-      logger.error('%o', e);
-      next(e)
-    }
-  })
+  // route.get('/', async (req, res, next) => {
+  //   try {
+  //     const result = await adminServer.specialService2();
+  //     res.status(200).json(
+  //       {
+  //         "status": 0,
+  //         "data": result
+  //       }
+  //     )
+  //   } catch (e) {
+  //     logger.error('%o', e);
+  //     next(e)
+  //   }
+  // })
   /***************查询业务***************/
   route.get('/all', async (req, res, next) => {
     try {
@@ -84,18 +84,19 @@ module.exports = (app) => {
       try {
         // 账号验证
         const record = await adminServer.baseFindByFilter(null, { account: req.body.account })
+
         // 该账号不存在
         if (record.length === 0) return res.status(400).json(
           {
             "status": 1,
             "msg": 'Account not registered!'
           })
-        // // 获取用户详细信息
-        // const result = await adminServer.signIn(req.body.password, record)
-        // if (!result) return res.status(400).json({
-        //   "status": 2,
-        //   "msg": 'Invalid account or password!'
-        // })
+        // 获取用户详细信息
+        const result = await adminServer.signIn(req.body.password, record[0].get())
+        if (!result) return res.status(400).json({
+          "status": 2,
+          "msg": 'Invalid account or password!'
+        })
 
         // 获取令牌
         const token = adminServer.generateAuthToken(record.id, record.account)
@@ -104,7 +105,7 @@ module.exports = (app) => {
         res.status(201).header('x-auth-token', token).json(
           {
             "status": 0,
-            "data": record,
+            "data": result,
             "token": token,
             "type": "admin"
           }
