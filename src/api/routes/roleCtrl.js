@@ -175,7 +175,7 @@ module.exports = (app) => {
   route.delete('/auth/delete', async (req, res, next) => {
     try {
       const result = await roleServer.deleteRoleAndAuth(req.body);
-      res.status(400).json(
+      res.status(200).json(
         {
           "status": result.code,
           "msg": result.msg

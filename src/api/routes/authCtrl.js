@@ -40,10 +40,10 @@ module.exports = (app) => {
       next(e)
     }
   })
-  /*************** 修改业务 ***************/
-  route.put('/update', async (req, res, next) => {
+  /*************** 删除业务 ***************/
+  route.delete('/delete', async (req, res, next) => {
     try {
-      const result = await authServer.updateAuth(req.body['update'], req.body['where']);
+      const result = await authServer.baseDelete(req.body);
       res.status(200).json(
         {
           "status": 0,
@@ -55,10 +55,12 @@ module.exports = (app) => {
       next(e)
     }
   })
-  /*************** 删除业务 ***************/
-  route.delete('/delete', async (req, res, next) => {
+  
+  /*************** 特殊业务 ***************/
+  route.put('/update', async (req, res, next) => {
     try {
-      const result = await authServer.baseDelete(req.body);
+      debug(req.body)
+      const result = await authServer.updateAuth(req.body['update'], req.body['where']);
       res.status(200).json(
         {
           "status": 0,

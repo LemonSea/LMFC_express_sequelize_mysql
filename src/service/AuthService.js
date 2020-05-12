@@ -1,4 +1,4 @@
-const debug = require('debug')('app:controller-phone');
+const debug = require('debug')('app:controller-auth');
 
 const BaseService = require('./baseService');
 const authModel = require('../model/authModel');
@@ -12,13 +12,13 @@ class AuthService extends BaseService{
 
 	async updateAuth(entitys, where) {
 		let transaction;
+		debug(where)
 		try {
 			// get transaction
     transaction = await db.transaction();
 
 			// step 1
 			const step1 = await this.baseDelete(where, { transaction });
-			
 			// step 2
 			const step2 = await this.baseCreateBatch(entitys, { transaction });
 
@@ -26,8 +26,7 @@ class AuthService extends BaseService{
 			await transaction.commit();
 
 			return true;
-		} catch (err) {
-			console.error(err)
+		} catch (ex) {
 			// Rollback transaction if any errors were encountered
 			await transaction.rollback();
 			throw ex
