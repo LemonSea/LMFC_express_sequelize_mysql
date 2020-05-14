@@ -3,11 +3,14 @@ const Router = require('express').Router;
 const upload = require('./routes/upload');
 
 const siteCtrl = require('./routes/siteCtrl');
+
 const authCtrl = require('./routes/authCtrl');
 const roleCtrl = require('./routes/roleCtrl');
 const adminCtrl = require('./routes/adminCtrl');
+
 const coachStatusCtrl = require('./routes/coachStatusCtrl');
 const coachTypeCtrl = require('./routes/coachTypeCtrl');
+const coachCtrl = require('./routes/coachCtrl');
 
 const vcardCtrl = require('./routes/vcardCtrl');
 const userCtrl = require('./routes/userCtrl');
@@ -25,6 +28,7 @@ module.exports = () => {
 
   coachStatusCtrl(app);
   coachTypeCtrl(app);
+  coachCtrl(app);
 
   vcardCtrl(app);
   userCtrl(app);
