@@ -12,10 +12,17 @@ class RoleModel extends BaseModel {
         type: sequelize.INTEGER,//类型
         autoIncrement: true
       },
+      num:{
+        type: sequelize.STRING,
+        allowNull: false,
+      },
       name: {
         type: sequelize.STRING,
         allowNull: false,
       },
+      describe: {
+        type: sequelize.STRING,
+      }
     })
     this.model = super.getModel()
     // as:如果定义了as，它将代替目标模型名称。

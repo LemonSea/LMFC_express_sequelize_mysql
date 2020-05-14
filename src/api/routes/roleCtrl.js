@@ -127,6 +127,7 @@ module.exports = (app) => {
   })
   route.post('/create', async (req, res, next) => {
     try {
+      debug(req.body)
       const result = await roleServer.baseCreate(req.body);
       res.status(200).json(
         {

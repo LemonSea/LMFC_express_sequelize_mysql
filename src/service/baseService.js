@@ -12,6 +12,11 @@ class BaseService {
 	baseFindAll(attributes) {
 		return attributes ? this.instance.findAll({ attributes: attributes }) : this.instance.findAll()
 	}
+	baseFindAllWithParanoid(attributes) {
+		return attributes 
+		? this.instance.findAllWithParanoid({ attributes: attributes }) 
+		: this.instance.findAllWithParanoid()
+	}
 	/**
 	 * 带过滤条件的精确查询
 	 * @param {过滤} attributes array
@@ -22,6 +27,12 @@ class BaseService {
 	}
 	baseFindByFilterPaging(attributes, where, offset, limit) {
 		return this.instance.findByFilterPaging(attributes, where, offset, limit)
+	}
+	baseFindLikeByFilterPaging(attributes, where, offset, limit) {
+		return this.instance.findLikeByFilterPaging(attributes, where, offset, limit)
+	}
+	baseFindLikeByFilterPagingOrder(attributes, where, offset, limit, order, orderBy) {
+		return this.instance.findLikeByFilterPagingOrder(attributes, where, offset, limit, order, orderBy)
 	}
 	/**
 	 * 带过滤条件的排序精确查询

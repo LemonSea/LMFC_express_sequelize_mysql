@@ -20,20 +20,46 @@ class BaseModel {
 	findAll(attributes) {
 		return attributes ? this.model.findAll({ attributes: attributes }) : this.model.findAll()
 	}
+	findAllWithParanoid(attributes) {
+		return attributes 
+		? this.model.findAndCountAll({ attributes: attributes ,paranoid: false}) 
+		: this.model.findAndCountAll()
+	}
 	// 带过滤条件的精确查询
-	findByFilter(attributes, where) {		
+	findByFilter(attributes, where) {
 		return attributes ? this.model.findAll({ attributes: attributes, where: where }) : this.model.findAll({ where: where })
 	}
 	// 带过滤条件的排序精确查询
 	findByFilterOrder(attributes, where, order) {
 		let orderOps = [[order, 'DESC']]
-		return attributes ? this.model.findAll({ attributes: attributes, where: where, order: orderOps }) : this.model.findAll({ where: where, order: orderOps })
+		return attributes
+			? this.model.findAll({ attributes: attributes, where: where, order: orderOps })
+			: this.model.findAll({ where: where, order: orderOps })
 	}
 	// 带过滤条件的分页精确查询
-	findByFilterPaging(attributes, where, offset, limit ) {
-    return attributes 
-    ? this.model.findAll({ attributes: attributes, where: where, offset: offset, limit: limit }) 
-    : this.model.findAll({ where: where, offset: offset, limit: limit })
+	findByFilterPaging(attributes, where, offset, limit) {
+		return attributes
+			? this.model.findAndCountAll({ attributes: attributes, where: where, offset: offset, limit: limit })
+			: this.model.findAndCountAll({ where: where, offset: offset, limit: limit })
+	}
+	// 带过滤条件的分页模糊查询
+	findLikeByFilterPaging(attributes, where, offset, limit) {
+		let whereOps = {}
+		for (let k in where) { whereOps[k] = { [Op.like]: '%' + where[k] + '%' } }
+		return attributes
+			? this.model.findAndCountAll({ attributes: attributes, where: whereOps, offset: offset, limit: limit })
+			: this.model.findAndCountAll({ where: whereOps, offset: offset, limit: limit })
+	}
+	// 带过滤条件的分页排序模糊查询
+	findLikeByFilterPagingOrder(attributes, where, offset, limit, order, orderBy) {
+		// let orderOps = [[orderBy, 'DESC']] // 降序：ASC
+		let orderOps = [[orderBy, order]]
+
+		let whereOps = {}
+		for (let k in where) { whereOps[k] = { [Op.like]: '%' + where[k] + '%' } }
+		return attributes
+			? this.model.findAndCountAll({ attributes: attributes, where: whereOps, offset: offset, limit: limit, order: orderOps })
+			: this.model.findAndCountAll({ where: whereOps, offset: offset, limit: limit, order: orderOps })
 	}
 	// 带过滤条件的模糊查询
 	findLikeByFilter(attributes, where) {

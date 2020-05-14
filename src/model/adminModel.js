@@ -34,6 +34,9 @@ class AdminModel extends BaseModel {
       },
       realName: {
         type: sequelize.STRING,
+      },      
+      photo: {
+        type: sequelize.STRING,
       },
       gender: {
         type: sequelize.INTEGER,
@@ -45,10 +48,10 @@ class AdminModel extends BaseModel {
         type: sequelize.DATEONLY,
       },
       prefix: {
-        type: sequelize.INTEGER,
+        type: sequelize.STRING,
       },
       phone: {
-        type: sequelize.INTEGER,
+        type: sequelize.STRING,
       },
       email: {
         type: sequelize.STRING,

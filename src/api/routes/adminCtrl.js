@@ -2,7 +2,7 @@ const route = require('express').Router();
 const debug = require('debug')('app:route-admin');
 const logger = require('../../middlewares/logger');
 const _ = require('lodash');
-
+const serialNumber = require('../../tools/serialNumber');
 
 const adminServer = require('../../service/AdminService');
 
@@ -141,9 +141,38 @@ module.exports = (app) => {
       next(e)
     }
   })
+  route.delete('/deleteBatch', async (req, res, next) => {
+    try {
+      const result = await adminServer.deleteBatchByIdArr(req.body);
+      res.status(200).json(
+        {
+          "status": 0,
+          "data": result
+        }
+      )
+    } catch (e) {
+      logger.error('%o', e);
+      next(e)
+    }
+  })
   route.post('/create', async (req, res, next) => {
     try {
-      const result = await adminServer.baseCreate(req.body);
+      let entity = req.body.entity;
+      let serialObj = req.body.serialObj;
+
+      // 其他数据补全
+      let allList = await adminServer.baseFindAllWithParanoid();
+      let serial = serialObj.site + serialObj.roleNum + serialNumber(allList.count, 3)
+      entity.num = serial;  // 流水号生成
+      if (!entity.account) entity.account = serial;  // 账号生成（默认为编码）
+      var string = entity.IDCard;
+      var stringLength = string.length
+      if (!entity.password) entity.password = string.substring(stringLength - 6, stringLength);  // 密码生成
+      debug(entity)
+      // 设置 num
+
+      const result = await adminServer.signUp(entity)
+
       res.status(201).json(
         {
           "status": 0,
@@ -243,16 +272,27 @@ module.exports = (app) => {
       }
     })
 
-    
+
   route.get('/find/where/paging', async (req, res, next) => {
     try {
-      let where = _.omit(req.query,['limit','offset'])
-      let limit = parseInt(req.query.limit) 
+      let where = _.omit(req.query, ['limit', 'offset', 'order', 'orderBy'])
+      let limit = parseInt(req.query.limit)
       let offset = parseInt(req.query.offset)
+      let order = req.query.order
+      let orderBy = req.query.orderBy
       // debug(where)
       // debug(limit)
       // debug(offset)
-      const result = await adminServer.baseFindByFilterPaging(null, where, offset, limit);
+      if (orderBy) {
+        const result = await adminServer.baseFindLikeByFilterPagingOrder(null, where, offset, limit, order, orderBy);
+        return res.status(200).json(
+          {
+            "status": 0,
+            "data": result
+          }
+        )
+      }
+      const result = await adminServer.baseFindLikeByFilterPaging(null, where, offset, limit);
       res.status(200).json(
         {
           "status": 0,

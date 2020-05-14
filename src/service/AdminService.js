@@ -3,11 +3,11 @@ const { Container } = require("typedi");
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 const Jwt = require('jsonwebtoken');
-
 const config = require('../config');
+const db = require('../lib/db');//引入数据库配置信息
+
 const BaseService = require('./baseService');
 const AdminModel = require('../model/adminModel');
-
 const AuthService = require('./AuthService');
 
 class AdminService extends BaseService {
@@ -79,23 +79,47 @@ class AdminService extends BaseService {
 			}
 
 			// 获取对应权限
-			const auth = await AuthService.baseFindByFilter(['auth'], {roleId: record.roleId})
-			auth.forEach(element =>{
+			const auth = await AuthService.baseFindByFilter(['auth'], { roleId: record.roleId })
+			auth.forEach(element => {
 				record.menu.push(element.get().auth)
-			} );
+			});
 
-			return _.omit(record,['password'])
+			return _.omit(record, ['password'])
 
 		} catch (ex) {
 			throw ex
 		}
 	}
 
-	
-	async specialService2(){
+	async specialService2() {
 		try {
 			return await AdminModel.specialDAO3()
 		} catch (ex) {
+			throw ex
+		}
+	}
+
+	async deleteBatchByIdArr(idArr) {
+		let transaction;
+		
+		try {
+			// get transaction
+			transaction = await db.transaction();
+			for (let i = 0; i < idArr.length; i++) {
+				await this.baseDelete({ id: idArr[i] }, { transaction });
+			}
+			// // step 1
+			// const step1 = await this.baseDelete(where, { transaction });
+			// // step 2
+			// const step2 = await this.baseCreateBatch(entitys, { transaction });
+
+			// commit
+			await transaction.commit();
+
+			return true;
+		} catch (ex) {
+			// Rollback transaction if any errors were encountered
+			await transaction.rollback();
 			throw ex
 		}
 	}
