@@ -18,7 +18,9 @@ const server = app.listen(port, (err) => {
     logger.error(err);
     process.exit(1);
   }
+  logger.info(`*********************************`);
   logger.info(`Server listening on port: ${port}`);
+  logger.info(`*********************************`);
   // throw new Error('Something failed during startup.')
   // console.dir(`Server listen on port ${port}`);
 });

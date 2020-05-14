@@ -6,6 +6,8 @@ const siteCtrl = require('./routes/siteCtrl');
 const authCtrl = require('./routes/authCtrl');
 const roleCtrl = require('./routes/roleCtrl');
 const adminCtrl = require('./routes/adminCtrl');
+const coachStatusCtrl = require('./routes/coachStatusCtrl');
+
 const vcardCtrl = require('./routes/vcardCtrl');
 const userCtrl = require('./routes/userCtrl');
 
@@ -18,6 +20,8 @@ module.exports = () => {
   authCtrl(app);
   roleCtrl(app);
   adminCtrl(app);
+  coachStatusCtrl(app);
+
   vcardCtrl(app);
   userCtrl(app);
     
