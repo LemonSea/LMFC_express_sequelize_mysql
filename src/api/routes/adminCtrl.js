@@ -168,7 +168,6 @@ module.exports = (app) => {
       var string = entity.IDCard;
       var stringLength = string.length
       if (!entity.password) entity.password = string.substring(stringLength - 6, stringLength);  // 密码生成
-      debug(entity)
       // 设置 num
 
       const result = await adminServer.signUp(entity)
@@ -273,6 +272,7 @@ module.exports = (app) => {
     })
 
 
+  // 模糊搜索分页排序查询
   route.get('/find/where/paging', async (req, res, next) => {
     try {
       let where = _.omit(req.query, ['limit', 'offset', 'order', 'orderBy'])
@@ -280,19 +280,17 @@ module.exports = (app) => {
       let offset = parseInt(req.query.offset)
       let order = req.query.order
       let orderBy = req.query.orderBy
-      // debug(where)
-      // debug(limit)
-      // debug(offset)
-      if (orderBy) {
-        const result = await adminServer.baseFindLikeByFilterPagingOrder(null, where, offset, limit, order, orderBy);
-        return res.status(200).json(
-          {
-            "status": 0,
-            "data": result
-          }
-        )
-      }
-      const result = await adminServer.baseFindLikeByFilterPaging(null, where, offset, limit);
+      // if (orderBy) {
+      //   let result = await adminServer.baseFindLikeByFilterPagingOrder(null, where, offset, limit, order, orderBy);
+      //   return res.status(200).json(
+      //     {
+      //       "status": 0,
+      //       "data": result
+      //     }
+      //   )
+      // }
+      // let result = await adminServer.baseFindLikeByFilterPaging(null, where, offset, limit);
+      let result = await adminServer.findWherePagingIsOrder(where, offset, limit, order, orderBy)
       res.status(200).json(
         {
           "status": 0,

@@ -9,6 +9,8 @@ const db = require('../lib/db');//引入数据库配置信息
 const BaseService = require('./baseService');
 const AdminModel = require('../model/adminModel');
 const AuthService = require('./AuthService');
+const RoleService = require('./RoleService');
+const roleModel = require('../model/roleModel');
 
 class AdminService extends BaseService {
 	constructor() {
@@ -99,9 +101,33 @@ class AdminService extends BaseService {
 		}
 	}
 
+	// 查询所有
+	async findWherePagingIsOrder(where, offset, limit, order, orderBy) {
+		let record;
+		record = orderBy
+			? await this.baseFindLikeByFilterPagingOrder(null, where, offset, limit, order, orderBy)
+			: await this.baseFindLikeByFilterPaging(null, where, offset, limit)
+
+		// 给员工附加角色内容
+		const roleList = await roleModel.findAll()
+		for (let p of record.rows) {
+			for (let r of roleList) {
+				if (r.get().id === p.get().roleId) {
+					p.get().role = _.pick(r.get(),['name','num','describe'])
+				}
+			}
+		}
+
+		return record;
+	}
+
+	/**
+	 * 根据id批量删除
+	 * @param {批量删除} idArr idArr
+	 */
 	async deleteBatchByIdArr(idArr) {
 		let transaction;
-		
+
 		try {
 			// get transaction
 			transaction = await db.transaction();
