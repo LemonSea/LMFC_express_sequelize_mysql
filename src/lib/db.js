@@ -3,16 +3,6 @@ const debug = require('debug')('app:db');
 const config = require('../config/index')
 const logger = require('../middlewares/logger');
 
-// console.log(config)
-// const mysql = {//本地mysql库信息配置
-//     host: 'localhost',//地址
-//     port:'3306',
-//     user: 'root',//用户名
-//     password: '1434870859',//密码
-//     database: 'test',//数据库名
-//     dialect: 'mysql'//数据库类型
-// };
-
 const mysql = {//本地mysql库信息配置
     host: config.dbConfig.host,//地址
     port: config.dbConfig.port,

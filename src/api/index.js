@@ -14,7 +14,7 @@ const coachCtrl = require('./routes/coachCtrl');
 
 const gymStatusCtrl = require('./routes/gymStatusCtrl');
 const gymTypeCtrl = require('./routes/gymTypeCtrl');
-// const coachCtrl = require('./routes/coachCtrl');
+const gymCtrl = require('./routes/gyymCtrl');
 
 const vcardCtrl = require('./routes/vcardCtrl');
 const userCtrl = require('./routes/userCtrl');
@@ -32,7 +32,7 @@ module.exports = () => {
 
   gymStatusCtrl(app);
   gymTypeCtrl(app);
-  // coachCtrl(app);
+  gymCtrl(app);
 
   coachStatusCtrl(app);
   coachTypeCtrl(app);

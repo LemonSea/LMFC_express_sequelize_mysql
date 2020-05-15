@@ -1,4 +1,4 @@
-const debug = require('debug')('app:controller-coachType');
+const debug = require('debug')('app:controller-gymType');
 
 const BaseService = require('./baseService');
 const gymTypeModel = require('../model/gymTypeModel');
