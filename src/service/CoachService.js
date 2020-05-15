@@ -9,6 +9,7 @@ const BaseService = require('./baseService');
 const coachModel = require('../model/coachModel');
 const RoleService = require('./RoleService');
 const CoachTypeService = require('./CoachTypeService');
+const CoachStatusService = require('./CoachStatusService');
 
 class CoachService extends BaseService {
 	constructor() {
@@ -51,11 +52,22 @@ class CoachService extends BaseService {
 			}
 		}
 
+		// 添加类型内容
 		const typeList = await CoachTypeService.baseFindAll()
 		for (let p of record.rows) {
 			for (let r of typeList) {
-				if (r.get().id === p.get().typeId) {
+				if (r.get().id === p.get().coachTypeId) {
 					p.get().type = _.pick(r.get(), ['name', 'num', 'describe'])
+				}
+			}
+		}
+
+		// 添加状态内容
+		const statusList = await CoachStatusService.baseFindAll()
+		for (let p of record.rows) {
+			for (let r of statusList) {
+				if (r.get().id === p.get().coachStatusId) {
+					p.get().status = _.pick(r.get(), ['name', 'num', 'describe'])
 				}
 			}
 		}

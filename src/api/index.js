@@ -12,6 +12,10 @@ const coachStatusCtrl = require('./routes/coachStatusCtrl');
 const coachTypeCtrl = require('./routes/coachTypeCtrl');
 const coachCtrl = require('./routes/coachCtrl');
 
+const gymStatusCtrl = require('./routes/gymStatusCtrl');
+const gymTypeCtrl = require('./routes/gymTypeCtrl');
+// const coachCtrl = require('./routes/coachCtrl');
+
 const vcardCtrl = require('./routes/vcardCtrl');
 const userCtrl = require('./routes/userCtrl');
 
@@ -25,6 +29,10 @@ module.exports = () => {
   authCtrl(app);
   roleCtrl(app);
   adminCtrl(app);
+
+  gymStatusCtrl(app);
+  gymTypeCtrl(app);
+  // coachCtrl(app);
 
   coachStatusCtrl(app);
   coachTypeCtrl(app);
